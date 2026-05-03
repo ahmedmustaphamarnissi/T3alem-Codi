@@ -1,4 +1,4 @@
-# MeanProject - E-Learning Platform
+# T3alem Codi - E-Learning Platform
 
 An advanced Course Management and E-Learning platform built with **Angular 21** and **Server-Side Rendering (SSR)**. The application provides a comprehensive interface for both standard users (students) and administrators.
 
