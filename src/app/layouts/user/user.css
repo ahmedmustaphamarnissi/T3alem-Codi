@@ -1,0 +1,66 @@
+/* Sidebar base */
+#mySidebar {
+  background: linear-gradient(180deg, #c0392b 0%, #e74c3c 100%);
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+:host-context(.dark-theme) #mySidebar {
+  background: var(--card-bg) !important;
+  border-right: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+/* Logo area */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 16px 50px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 20px;
+}
+
+.logo-icon {
+  font-size: 2rem;
+}
+
+.logo-text {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+}
+
+/* Nav links */
+.sidebar-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+  padding: 14px 20px !important;
+  border-radius: 10px !important;
+  margin: 4px 8px !important;
+  width: calc(100% - 16px) !important;
+  transition: all 0.25s ease !important;
+  font-size: 1rem !important;
+  border-left: 3px solid transparent !important;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-left: 3px solid white !important;
+  color: white !important;
+  padding-left: 26px !important;
+}
+
+.sidebar-link.active {
+  background: rgba(255, 255, 255, 0.22) !important;
+  border-left: 3px solid white !important;
+  color: white !important;
+}
+
+/* Icons */
+.sidebar-icon {
+  margin-right: 10px;
+  width: 18px;
+  text-align: center;
+  opacity: 0.9;
+}

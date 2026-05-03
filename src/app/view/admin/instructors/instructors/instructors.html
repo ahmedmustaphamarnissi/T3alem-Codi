@@ -1,0 +1,405 @@
+<div class="card">
+  <div class="card-header">
+    <div>
+      <div class="card-title">Instructors</div>
+      <div class="card-sub">Manage all registered instructors</div>
+    </div>
+    <button class="btn-add" routerLink="/admin/addinstructor">
+      <svg
+        width="13"
+        height="13"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+      >
+        <path d="M8 3v10M3 8h10" />
+      </svg>
+      Add Instructor
+    </button>
+  </div>
+
+  <div class="search-wrap">
+    <div class="search-wrap-inner">
+      <svg
+        class="search-icon"
+        width="13"
+        height="13"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="7" cy="7" r="4" />
+        <path d="M11 11l3 3" />
+      </svg>
+      <input
+        class="search-input"
+        type="text"
+        placeholder="Search by name, CIN..."
+        id="searchInput"
+        oninput="filterTable()"
+      />
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Instructor</th>
+        <th>CIN</th>
+        <th>Salary</th>
+        <th>Domain</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+      @for (item of monitors; track item.id) {
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.firstName + ' ' + item.lastName }}</td>
+          <td>{{ item.cin }}</td>
+          <td>{{ item.salary }}</td>
+          <td>{{ item.domainName }}</td>
+          <td>
+            <div class="actions">
+              <button
+                class="btn-edit"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                (click)="sendData(item.id)"
+              >
+                Edit
+              </button>
+              <button class="btn-del" (click)="Delete(item.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  <div id="empty" class="empty" style="display: none">No instructors found.</div>
+
+  <div class="footer">
+    <span id="count">{{ monitors.length }} instructors</span>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content update-modal">
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Instructor</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+        <form class="form-card" #f="ngForm" (ngSubmit)="UpdateInstructor(f)">
+          <div class="form-grid">
+            <!-- First Name -->
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <input
+                type="text"
+                class="form-input"
+                [class.is-invalid]="firstname.invalid && firstname.touched"
+                placeholder="First name"
+                required
+                name="firstname"
+                #firstname="ngModel"
+                [(ngModel)]="instructor.firstName"
+                minlength="2"
+                maxlength="20"
+              />
+              @if (firstname.errors?.['required'] && firstname.touched) {
+                <div class="form-error">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  This field is required.
+                </div>
+              }
+              @if (firstname.errors?.['minlength'] && firstname.touched) {
+                <div class="form-error">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  Minimum 2 characters.
+                </div>
+              }
+            </div>
+
+            <!-- Last Name -->
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <input
+                type="text"
+                class="form-input"
+                [class.is-invalid]="lastname.invalid && lastname.touched"
+                placeholder="Last name"
+                required
+                name="lastname"
+                #lastname="ngModel"
+                [(ngModel)]="instructor.lastName"
+                minlength="2"
+                maxlength="20"
+              />
+              @if (lastname.errors?.['required'] && lastname.touched) {
+                <div class="form-error">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  This field is required.
+                </div>
+              }
+              @if (lastname.errors?.['minlength'] && lastname.touched) {
+                <div class="form-error">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  Minimum 2 characters.
+                </div>
+              }
+            </div>
+
+            <!-- CIN -->
+            <div class="form-group form-group-full">
+              <label class="form-label">CIN</label>
+              <input
+                type="text"
+                class="form-input"
+                [class.is-invalid]="cin.invalid && cin.touched"
+                placeholder="Enter 8-digit CIN"
+                required
+                name="cin"
+                #cin="ngModel"
+                [(ngModel)]="instructor.cin"
+                minlength="8"
+                maxlength="8"
+                pattern="[0-9]{8}"
+              />
+              @if (cin.errors?.['required'] && cin.touched) {
+                <div class="form-error">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  This field is required.
+                </div>
+              }
+              @if ((cin.errors?.['minlength'] || cin.errors?.['pattern']) && cin.touched) {
+                <div class="form-error">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  CIN must be exactly 8 digits.
+                </div>
+              }
+            </div>
+
+            <!-- Salary -->
+            <div class="form-group">
+              <label class="form-label">Salary</label>
+              <input
+                type="number"
+                class="form-input"
+                [class.is-invalid]="salary.invalid && salary.touched"
+                placeholder="Salary"
+                min="100"
+                max="10000"
+                required
+                name="salary"
+                #salary="ngModel"
+                [(ngModel)]="instructor.salary"
+              />
+              @if (salary.errors?.['required'] && salary.touched) {
+                <div class="form-error">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  This field is required.
+                </div>
+              }
+              @if ((salary.errors?.['min'] || salary.errors?.['max']) && salary.touched) {
+                <div class="form-error">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  Salary must be between 100 and 10000.
+                </div>
+              }
+            </div>
+
+            <!-- Domain Name -->
+            <div class="form-group">
+              <label class="form-label">Domain Name</label>
+              <select
+                class="form-input"
+                [class.is-invalid]="domainName.invalid && domainName.touched"
+                required
+                name="domainName"
+                #domainName="ngModel"
+                [(ngModel)]="instructor.domainName"
+              >
+                <option value="" disabled>-- Select a domain --</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="UI/UX Design">UI/UX Design</option>
+                <option value="Business & Management">Business & Management</option>
+                <option value="Software Development">Software Development</option>
+                <option value="Data Science & AI">Data Science & AI</option>
+                <option value="all">All</option>
+              </select>
+              @if (domainName.errors?.['required'] && domainName.touched) {
+                <div class="form-error">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  This field is required.
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Global error -->
+          @if (f.invalid && f.submitted) {
+            <div class="form-error-global">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              Please fix the errors above before submitting.
+            </div>
+          }
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button class="btn-submit" type="submit">
+              <i class="fas fa-floppy-disk"></i> Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

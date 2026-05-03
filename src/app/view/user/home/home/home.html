@@ -1,0 +1,261 @@
+<div class="w3-main" style="margin-left: 340px; margin-right: 40px">
+  <!-- Header -->
+  <div class="w3-container" style="margin-top: 80px" id="showcase">
+    <h1 class="w3-jumbo"><b>T3alem Codi</b></h1>
+    <h1 class="w3-xxxlarge w3-text-red"><b>Online School.</b></h1>
+    <hr style="width: 50px; border: 5px solid red" class="w3-round" />
+  </div>
+
+  <!-- Photo grid (modal) -->
+  <div class="w3-row-padding">
+    <div class="w3-half">
+      <img
+        src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600"
+        style="width: 100%"
+        onclick="onClick(this)"
+        alt="Students collaborating online"
+      />
+      <img
+        src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600"
+        style="width: 100%"
+        onclick="onClick(this)"
+        alt="Student studying at desk"
+      />
+      <img
+        src="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=600"
+        style="width: 100%"
+        onclick="onClick(this)"
+        alt="Laptop and notebook learning"
+      />
+    </div>
+    <div class="w3-half">
+      <img
+        src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600"
+        style="width: 100%"
+        onclick="onClick(this)"
+        alt="Classroom environment"
+      />
+      <img
+        src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=600"
+        style="width: 100%"
+        onclick="onClick(this)"
+        alt="Online video class"
+      />
+      <img
+        src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600"
+        style="width: 100%"
+        onclick="onClick(this)"
+        alt="Books and study materials"
+      />
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div
+    id="modal01"
+    class="w3-modal w3-black"
+    style="padding-top: 0"
+    onclick="this.style.display = 'none'"
+  >
+    <span class="w3-button w3-black w3-xxlarge w3-display-topright">&times;</span>
+    <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+      <img id="img01" class="w3-image" />
+      <p id="caption"></p>
+    </div>
+  </div>
+
+  <!-- About / Stats -->
+  <div class="w3-container" id="services" style="margin-top: 75px">
+    <h1 class="w3-xxxlarge w3-text-red"><b>About Us.</b></h1>
+    <hr style="width: 50px; border: 5px solid red" class="w3-round" />
+    <p>
+      EduConnect is an online school dedicated to making quality education accessible to everyone,
+      everywhere.
+    </p>
+    <p>
+      We are proud to have <b>1,200+ active students</b> and <b>80+ certified teachers</b> across
+      multiple disciplines. Our platform offers live classes, recorded sessions, and interactive
+      assignments — all designed to give you the best learning experience from the comfort of your
+      home.
+    </p>
+
+    <div class="w3-row-padding w3-margin-top">
+      <div class="w3-third w3-center">
+        <h1 class="w3-jumbo w3-text-red"><b>1200+</b></h1>
+        <p>Students Enrolled</p>
+      </div>
+      <div class="w3-third w3-center">
+        <h1 class="w3-jumbo w3-text-red"><b>80+</b></h1>
+        <p>Qualified Teachers</p>
+      </div>
+      <div class="w3-third w3-center">
+        <h1 class="w3-jumbo w3-text-red"><b>12</b></h1>
+        <p>Study Domains</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Domains -->
+  <div class="w3-container" id="designers" style="margin-top: 75px">
+    <h1 class="w3-xxxlarge w3-text-red"><b>Domains.</b></h1>
+    <hr style="width: 50px; border: 5px solid red" class="w3-round" />
+    <p>Explore a wide range of study fields tailored for all levels.</p>
+    <p>
+      Whether you're starting from scratch or looking to advance your career, our school offers
+      structured programs in the most in-demand fields today. Each domain is taught by experienced
+      professionals with real-world knowledge.
+    </p>
+    <p><b>Our study domains include</b>:</p>
+  </div>
+
+  <!-- Domain Cards -->
+  <div class="w3-row-padding w3-grayscale">
+    <div class="w3-col m4 w3-margin-bottom">
+      <div class="w3-light-grey">
+        <img
+          src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400"
+          alt="Computer Science"
+          style="width: 100%"
+        />
+        <div class="w3-container">
+          <h3>Computer Science</h3>
+          <p class="w3-opacity">Programming & Software</p>
+          <p>
+            Learn web development, algorithms, data structures, and software engineering from
+            industry experts.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="w3-col m4 w3-margin-bottom">
+      <div class="w3-light-grey">
+        <img
+          src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400"
+          alt="Business"
+          style="width: 100%"
+        />
+        <div class="w3-container">
+          <h3>Business & Management</h3>
+          <p class="w3-opacity">Entrepreneurship & Finance</p>
+          <p>
+            Discover the fundamentals of business, marketing, project management, and
+            entrepreneurship.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="w3-col m4 w3-margin-bottom">
+      <div class="w3-light-grey">
+        <img
+          src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=400"
+          alt="Design"
+          style="width: 100%"
+        />
+        <div class="w3-container">
+          <h3>Design & Creativity</h3>
+          <p class="w3-opacity">UI/UX & Graphic Design</p>
+          <p>
+            Master design principles, visual communication, and modern tools like Figma and Adobe
+            Suite.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plans -->
+  <div class="w3-container" id="packages" style="margin-top: 75px">
+    <h1 class="w3-xxxlarge w3-text-red"><b>Plans.</b></h1>
+    <hr style="width: 50px; border: 5px solid red" class="w3-round" />
+    <p>
+      Choose the plan that fits your learning goals. All plans include access to our online platform
+      and community forums.
+    </p>
+  </div>
+
+  <div class="w3-row-padding">
+    <div class="w3-half w3-margin-bottom">
+      <ul class="w3-ul w3-light-grey w3-center">
+        <li class="w3-dark-grey w3-xlarge w3-padding-32">Basic</li>
+        <li class="w3-padding-16">Access to 1 Domain</li>
+        <li class="w3-padding-16">10 hours of live classes</li>
+        <li class="w3-padding-16">Recorded sessions</li>
+        <li class="w3-padding-16">Community forum access</li>
+        <li class="w3-padding-16">Certificate of completion</li>
+        <li class="w3-padding-16">
+          <h2>$ 29</h2>
+          <span class="w3-opacity">per month</span>
+        </li>
+        <li class="w3-light-grey w3-padding-24">
+          <button class="w3-button w3-white w3-padding-large w3-hover-black">Sign Up</button>
+        </li>
+      </ul>
+    </div>
+    <div class="w3-half">
+      <ul class="w3-ul w3-light-grey w3-center">
+        <li class="w3-red w3-xlarge w3-padding-32">Pro</li>
+        <li class="w3-padding-16">Access to All Domains</li>
+        <li class="w3-padding-16">Unlimited live classes</li>
+        <li class="w3-padding-16">Recorded sessions</li>
+        <li class="w3-padding-16">Priority teacher support</li>
+        <li class="w3-padding-16">Official diploma</li>
+        <li class="w3-padding-16">
+          <h2>$ 59</h2>
+          <span class="w3-opacity">per month</span>
+        </li>
+        <li class="w3-light-grey w3-padding-24">
+          <button class="w3-button w3-red w3-padding-large w3-hover-black">Sign Up</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="w3-container" id="contact" style="margin-top: 75px">
+    <h1 class="w3-xxxlarge w3-text-red"><b>Contact.</b></h1>
+    <hr style="width: 50px; border: 5px solid red" class="w3-round" />
+    <p>
+      Have a question or want to enroll? Fill out the form below and our team will get back to you
+      shortly!
+    </p>
+
+    <form action="/action_page.php" target="_blank" class="contact-form">
+      <!-- Name + Email in same line -->
+      <div class="contact-row">
+        <div class="contact-field">
+          <label class="contact-label">Name</label>
+          <input
+            class="w3-input w3-border w3-round contact-input"
+            type="text"
+            name="Name"
+            required
+          />
+        </div>
+        <div class="contact-field">
+          <label class="contact-label">Email</label>
+          <input
+            class="w3-input w3-border w3-round contact-input"
+            type="email"
+            name="Email"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Message full width -->
+      <div class="contact-field" style="margin-top: 20px">
+        <label class="contact-label">Message</label>
+        <textarea
+          class="w3-input w3-border w3-round contact-input"
+          name="Message"
+          rows="5"
+          required
+        ></textarea>
+      </div>
+
+      <button type="submit" class="w3-button w3-red w3-round contact-btn" >
+        <i class="fa-solid fa-paper-plane" style="margin-right: 8px"></i> Send Message
+      </button>
+    </form>
+  </div>
+</div>

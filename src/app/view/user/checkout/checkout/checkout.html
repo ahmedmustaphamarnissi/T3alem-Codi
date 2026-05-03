@@ -1,0 +1,172 @@
+<div class="w3-main checkout-page-wrapper">
+  <div class="checkout-container">
+    <div class="checkout-header">
+      <a routerLink="/courses" class="back-btn"><i class='bx bx-arrow-back'></i> Back to Courses</a>
+      <h1>Secure Checkout</h1>
+    </div>
+
+    @if (isLoading) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading course details...</p>
+      </div>
+    } @else if (course) {
+      @if (paymentSuccess) {
+        <div class="success-state">
+          <i class='bx bxs-check-circle'></i>
+          <h2>Payment Successful!</h2>
+          <p>You have successfully enrolled in <strong>{{ course.name }}</strong>.</p>
+          <p class="redirect-msg">Redirecting you to your courses...</p>
+        </div>
+      } @else {
+        <div class="checkout-content">
+          <!-- Left Side: Payment Form -->
+          <div class="payment-section">
+            <div class="section-title">
+              <h2>Billing & Payment</h2>
+              <div class="secure-badge"><i class='bx bxs-lock-alt'></i> Secure</div>
+            </div>
+
+            <form #checkoutForm="ngForm" (ngSubmit)="checkoutForm.form.valid && processPayment()" class="payment-form">
+              
+              <!-- Billing Information -->
+              <h3 class="subsection-title">Billing Information</h3>
+              <div class="form-group">
+                <label>Email Address</label>
+                <div class="input-wrapper" [class.invalid]="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
+                  <i class='bx bx-envelope'></i>
+                  <input type="email" [(ngModel)]="email" name="email" #emailInput="ngModel" placeholder="example@email.com" required email>
+                </div>
+                @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
+                  <div class="error-msg">
+                    @if (emailInput.errors?.['required']) { <span>Email is required</span> }
+                    @if (emailInput.errors?.['email']) { <span>Please enter a valid email</span> }
+                  </div>
+                }
+              </div>
+
+              <div class="form-row">
+                <div class="form-group half">
+                  <label>Phone Number</label>
+                  <div class="input-wrapper" [class.invalid]="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)">
+                    <i class='bx bx-phone'></i>
+                    <input type="tel" [(ngModel)]="phone" name="phone" #phoneInput="ngModel" placeholder="+1 (555) 000-0000" required>
+                  </div>
+                  @if (phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)) {
+                    <div class="error-msg">Phone is required</div>
+                  }
+                </div>
+                <div class="form-group half">
+                  <label>Address</label>
+                  <div class="input-wrapper" [class.invalid]="addressInput.invalid && (addressInput.dirty || addressInput.touched)">
+                    <i class='bx bx-home'></i>
+                    <input type="text" [(ngModel)]="address" name="address" #addressInput="ngModel" placeholder="123 Main St" required>
+                  </div>
+                  @if (addressInput.invalid && (addressInput.dirty || addressInput.touched)) {
+                    <div class="error-msg">Address is required</div>
+                  }
+                </div>
+              </div>
+
+              <hr class="divider">
+
+              <!-- Payment Information -->
+              <h3 class="subsection-title">Payment Information</h3>
+              <div class="form-group">
+                <label>Name on Card</label>
+                <div class="input-wrapper" [class.invalid]="cardNameInput.invalid && (cardNameInput.dirty || cardNameInput.touched)">
+                  <i class='bx bx-user'></i>
+                  <input type="text" [(ngModel)]="cardName" name="cardName" #cardNameInput="ngModel" placeholder="John Doe" required minlength="3">
+                </div>
+                @if (cardNameInput.invalid && (cardNameInput.dirty || cardNameInput.touched)) {
+                  <div class="error-msg">Valid card name is required</div>
+                }
+              </div>
+
+              <div class="form-group">
+                <label>Card Number</label>
+                <div class="input-wrapper" [class.invalid]="cardNumberInput.invalid && (cardNumberInput.dirty || cardNumberInput.touched)">
+                  <i class='bx bx-credit-card'></i>
+                  <input type="text" [(ngModel)]="cardNumber" name="cardNumber" #cardNumberInput="ngModel" placeholder="0000 0000 0000 0000" required minlength="16" maxlength="19">
+                </div>
+                @if (cardNumberInput.invalid && (cardNumberInput.dirty || cardNumberInput.touched)) {
+                  <div class="error-msg">Valid 16-digit card number is required</div>
+                }
+              </div>
+
+              <div class="form-row">
+                <div class="form-group half">
+                  <label>Expiry Date</label>
+                  <div class="input-wrapper" [class.invalid]="expiryDateInput.invalid && (expiryDateInput.dirty || expiryDateInput.touched)">
+                    <i class='bx bx-calendar'></i>
+                    <input type="text" [(ngModel)]="expiryDate" name="expiryDate" #expiryDateInput="ngModel" placeholder="MM/YY" required minlength="5" maxlength="5">
+                  </div>
+                  @if (expiryDateInput.invalid && (expiryDateInput.dirty || expiryDateInput.touched)) {
+                    <div class="error-msg">Valid expiry date required</div>
+                  }
+                </div>
+
+                <div class="form-group half">
+                  <label>CVV</label>
+                  <div class="input-wrapper" [class.invalid]="cvvInput.invalid && (cvvInput.dirty || cvvInput.touched)">
+                    <i class='bx bx-lock'></i>
+                    <input type="password" [(ngModel)]="cvv" name="cvv" #cvvInput="ngModel" placeholder="123" required minlength="3" maxlength="4">
+                  </div>
+                  @if (cvvInput.invalid && (cvvInput.dirty || cvvInput.touched)) {
+                    <div class="error-msg">Valid CVV required</div>
+                  }
+                </div>
+              </div>
+
+              <button type="submit" class="btn-pay" [disabled]="isProcessing || checkoutForm.invalid">
+                @if (isProcessing) {
+                  <i class='bx bx-loader-alt bx-spin'></i> Processing...
+                } @else {
+                  Pay {{ course.price === 0 ? 'Free' : '$' + course.price }}
+                }
+              </button>
+            </form>
+          </div>
+
+          <!-- Right Side: Order Summary -->
+          <div class="summary-section">
+            <h2>Order Summary</h2>
+            
+            <div class="summary-card">
+              <img [src]="course.imageUrl || 'assets/placeholder.jpg'" [alt]="course.name" (error)="$any($event.target).src = 'assets/placeholder.jpg'">
+              <div class="summary-details">
+                <span class="domain-tag">{{ course.domainName }}</span>
+                <h3>{{ course.name }}</h3>
+                <p>Mentor: {{ course.fullName }}</p>
+              </div>
+            </div>
+
+            <div class="summary-totals">
+              <div class="tot-row">
+                <span>Original Price</span>
+                <span>{{ course.price === 0 ? '$0.00' : '$' + course.price }}</span>
+              </div>
+              <div class="tot-row">
+                <span>Taxes & Fees</span>
+                <span>$0.00</span>
+              </div>
+              <div class="tot-row total">
+                <span>Total</span>
+                <span>{{ course.price === 0 ? 'Free' : '$' + course.price }}</span>
+              </div>
+            </div>
+
+            <p class="terms-text">By completing this purchase, you agree to our Terms of Service.</p>
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="error-state">
+        <i class='bx bx-error-circle'></i>
+        <h2>Course Not Found</h2>
+        <p>The course you are trying to checkout does not exist.</p>
+        <a routerLink="/courses" class="btn-secondary">Return to Courses</a>
+      </div>
+    }
+  </div>
+</div>

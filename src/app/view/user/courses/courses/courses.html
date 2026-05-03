@@ -1,0 +1,69 @@
+<div class="w3-main" style="margin-left: 340px; margin-right: 40px">
+  <div class="courses-container">
+    <div class="header-section">
+      <h1>Explore Courses</h1>
+      <p>Find the right course to level up your skills.</p>
+    </div>
+
+    <div class="filters-section">
+      <div class="search-bar">
+        <i class="bx bx-search"></i>
+        <input
+          type="text"
+          [ngModel]="searchQuery"
+          (input)="onSearchChange($any($event.target).value)"
+          placeholder="Search by course name..."
+        />
+      </div>
+
+      <div class="filter-dropdowns">
+        <select [(ngModel)]="selectedDomain" (ngModelChange)="applyFilters()" class="filter-select">
+          <option value="">All Domains</option>
+          @for (domain of domains; track $index) {
+            <option [value]="domain">{{ domain }}</option>
+          }
+        </select>
+
+        <select [(ngModel)]="selectedPrice" (ngModelChange)="applyFilters()" class="filter-select">
+          <option value="">All Prices</option>
+          <option value="Free">Free</option>
+          <option value="Paid">Paid</option>
+        </select>
+      </div>
+    </div>
+
+    @if (filteredCourses.length > 0) {
+      <div class="courses-grid">
+        @for (course of filteredCourses; track course.id) {
+          <div class="course-card" [routerLink]="['/courses/details', course.id]" style="cursor: pointer;">
+            <div class="course-image">
+              <img
+                [src]="course.imageUrl || 'assets/placeholder.jpg'"
+                [alt]="course.name || 'Course Image'"
+                loading="lazy"
+                width="100%"
+                height="180"
+                (error)="$any($event.target).src = 'assets/placeholder.jpg'"
+              />
+              <span class="course-price" [class.free]="course.price === 0">
+                {{ course.price === 0 ? 'Free' : '$' + course.price }}
+              </span>
+            </div>
+            <div class="course-content">
+              <span class="course-domain">{{ course.domainName }}</span>
+              <h3 class="course-title">{{ course.name }}</h3>
+              <button class="btn-enroll" [routerLink]="['/checkout', course.id]" (click)="$event.stopPropagation()">Enroll Now</button>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="no-results">
+        <i class="bx bx-book-open"></i>
+        <h3>No courses found</h3>
+        <p>Try adjusting your filters or search query.</p>
+        <button class="btn-reset" (click)="resetFilters()">Reset Filters</button>
+      </div>
+    }
+  </div>
+</div>

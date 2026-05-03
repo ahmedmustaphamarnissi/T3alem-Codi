@@ -1,0 +1,244 @@
+<!-- =============================================
+  SIDEBAR COMPONENT
+  File: src/app/layout/sidebar/sidebar.component.html
+  Selector: app-sidebar
+  Used in: app.component.html
+============================================= -->
+
+<aside class="sidebar" [class.collapsed]="isCollapsed">
+  <!-- Brand Logo -->
+  <div class="sidebar-brand">
+    <div class="brand-icon">
+      <i class="fas fa-code"></i>
+    </div>
+    <span class="brand-name">T3alem Codi</span>
+  </div>
+
+  <!-- Navigation Menu -->
+  <nav class="sidebar-nav">
+    <p class="nav-section-label">Main</p>
+
+    <!-- Each routerLink points to an Angular route -->
+    <!-- Add routerLinkActive="active" to highlight current page -->
+
+    <a class="nav-item" routerLink="dashboard" routerLinkActive="active">
+      <i class="fas fa-chart-pie"></i>
+      <span>Dashboard</span>
+    </a>
+
+    <a class="nav-item" routerLink="allstudents" routerLinkActive="active">
+      <i class="fas fa-users"></i>
+      <span>Students</span>
+    </a>
+    <a class="nav-item" routerLink="addstudent" routerLinkActive="active">
+      <i class="fas fa-user-graduate"></i>
+      <span>Add student</span>
+    </a>
+
+    <a class="nav-item" routerLink="courses" routerLinkActive="active">
+      <i class="fas fa-book-open"></i>
+      <span>Courses</span>
+    </a>
+    <a class="nav-item" routerLink="addcourse" routerLinkActive="active">
+      <i class="fas fa-book-open"></i>
+      <span>Add Course</span>
+    </a>
+
+    <a class="nav-item" routerLink="instructors" routerLinkActive="active">
+      <i class="fas fa-chalkboard-teacher"></i>
+      <span>Instructors</span>
+    </a>
+    <a class="nav-item" routerLink="addinstructor" routerLinkActive="active">
+      <i class="fas fa-person-chalkboard"></i>
+      <span>Add Instructor</span>
+    </a>
+
+    <p class="nav-section-label">System</p>
+
+    <a class="nav-item" routerLink="messages" routerLinkActive="active">
+      <i class="fas fa-envelope"></i>
+      <span>Messages</span>
+      <span class="badge badge-purple">5</span>
+    </a>
+
+    <a class="nav-item" routerLink="settings" routerLinkActive="active">
+      <i class="fas fa-cog"></i>
+      <span>Settings</span>
+    </a>
+  </nav>
+</aside>
+
+<!-- =============================================
+  MAIN WRAPPER: topbar + page content
+  Sits to the right of the fixed sidebar
+============================================= -->
+<div class="main-wrapper" [class.collapsed]="isCollapsed">
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <!-- Left: Page title (dynamic via Input or router) -->
+    <div class="topbar-left">
+      <!-- Toggle sidebar on mobile / Dropdown Nav -->
+      <div class="mobile-menu-wrapper">
+        <button class="menu-toggle" (click)="toggleMobileMenu()" [class.active]="mobileMenuOpen">
+          <i class="fas fa-bars"></i>
+        </button>
+
+        @if (mobileMenuOpen) {
+          <div class="mobile-nav-dropdown">
+            <p class="nav-section-label">Main</p>
+            <a
+              class="nav-item"
+              routerLink="dashboard"
+              routerLinkActive="active"
+              (click)="mobileMenuOpen = false"
+            >
+              <i class="fas fa-chart-pie"></i>
+              <span>Dashboard</span>
+            </a>
+            <a
+              class="nav-item"
+              routerLink="allstudents"
+              routerLinkActive="active"
+              (click)="mobileMenuOpen = false"
+            >
+              <i class="fas fa-users"></i>
+              <span>Students</span>
+            </a>
+            <a
+              class="nav-item"
+              routerLink="addstudent"
+              routerLinkActive="active"
+              (click)="mobileMenuOpen = false"
+            >
+              <i class="fas fa-user-graduate"></i>
+              <span>Add student</span>
+            </a>
+            <a
+              class="nav-item"
+              routerLink="courses"
+              routerLinkActive="active"
+              (click)="mobileMenuOpen = false"
+            >
+              <i class="fas fa-book-open"></i>
+              <span>Courses</span>
+            </a>
+            <a
+              class="nav-item"
+              routerLink="addcourse"
+              routerLinkActive="active"
+              (click)="mobileMenuOpen = false"
+            >
+              <i class="fas fa-book-open"></i>
+              <span>Add Courses</span>
+            </a>
+            <a
+              class="nav-item"
+              routerLink="instructors"
+              routerLinkActive="active"
+              (click)="mobileMenuOpen = false"
+            >
+              <i class="fas fa-chalkboard-teacher"></i>
+              <span>Instructors</span>
+            </a>
+            <a
+              class="nav-item"
+              routerLink="addinstructor"
+              routerLinkActive="active"
+              (click)="mobileMenuOpen = false"
+            >
+              <i class="fas fa-person-chalkboard"></i>
+              <span>Add Instructor</span>
+            </a>
+
+            <div class="dropdown-divider" style="margin: 8px 0"></div>
+            <p class="nav-section-label">System</p>
+
+            <a
+              class="nav-item"
+              routerLink="messages"
+              routerLinkActive="active"
+              (click)="mobileMenuOpen = false"
+            >
+              <i class="fas fa-envelope"></i>
+              <span>Messages</span>
+            </a>
+            <a
+              class="nav-item"
+              routerLink="settings"
+              routerLinkActive="active"
+              (click)="mobileMenuOpen = false"
+            >
+              <i class="fas fa-cog"></i>
+              <span>Settings</span>
+            </a>
+          </div>
+        }
+      </div>
+
+      <div class="page-info">
+        <h1 class="page-title">{{ pageTitle }}</h1>
+        <p class="page-subtitle">{{ pageSubtitle }}</p>
+      </div>
+    </div>
+
+    <!-- Right: Search + Notifications + User -->
+    <div class="topbar-right">
+      <!-- Search bar -->
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search courses, students..." />
+      </div>
+
+      <!-- Notification Bell -->
+      <button
+        class="icon-btn"
+        title="Notifications"
+        routerLink="settings"
+        [queryParams]="{ tab: 'notifications' }"
+      >
+        <i class="fas fa-bell"></i>
+        <span class="notif-dot"></span>
+      </button>
+
+      <!-- User Avatar + Name -->
+      <div class="user-info" (click)="toggleDropdown()" [class.active]="dropdownOpen">
+        <div class="user-avatar">A</div>
+        <div class="user-meta">
+          <span class="user-name">{{ username }}</span>
+          <span class="user-role">Super Admin</span>
+        </div>
+        <i class="fas fa-chevron-down dropdown-icon" [class.rotated]="dropdownOpen"></i>
+
+        <!-- Dropdown Menu -->
+        @if (dropdownOpen) {
+          <div class="user-dropdown">
+            <div class="dropdown-divider"></div>
+            <a
+              class="dropdown-item"
+              routerLink="settings"
+              [queryParams]="{ tab: 'profile' }"
+              (click)="dropdownOpen = false"
+            >
+              <i class="fas fa-user"></i>
+              <span>My Profile</span>
+            </a>
+            <a class="dropdown-item" routerLink="settings" (click)="dropdownOpen = false">
+              <i class="fas fa-cog"></i>
+              <span>Settings</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item logout-item" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </a>
+          </div>
+        }
+      </div>
+    </div>
+  </header>
+
+  <!-- Page content injected by the router -->
+  <main class="page-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

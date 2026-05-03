@@ -1,0 +1,197 @@
+<!-- =============================================
+  DASHBOARD COMPONENT
+  File: src/app/dashboard/dashboard.component.html
+  Selector: app-dashboard
+  
+  STRUCTURE:
+  - Stats Cards (4 cards: students, courses, etc.)
+  - Courses Overview (chart + list)
+  - Recent Activity Feed
+  - Top Students Table
+============================================= -->
+
+<div class="dashboard-page">
+
+  <!-- ============ STATS CARDS ROW ============
+    Data comes from dashboardStats array in .ts
+  ============================================ -->
+  <section class="stats-grid">
+    @for (stat of dashboardStats; track stat.label) {
+    <div
+      class="stat-card"
+      [style.--card-accent]="stat.color"
+    >
+      <!-- Icon bubble -->
+      <div class="stat-icon" [style.background]="stat.color + '22'">
+        <i class="fas" [class]="'fas ' + stat.icon" [style.color]="stat.color"></i>
+      </div>
+
+      <!-- Numbers -->
+      <div class="stat-body">
+        <p class="stat-label">{{ stat.label }}</p>
+        <h2 class="stat-value">{{ stat.value }}</h2>
+
+        <!-- Trend badge: green if positive, red if negative -->
+        <span class="stat-trend" [class.positive]="stat.trendUp" [class.negative]="!stat.trendUp">
+          <i [class]="'fas ' + (stat.trendUp ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down')"></i>
+          {{ stat.trend }}
+        </span>
+      </div>
+
+      <!-- Decorative corner shape -->
+      <div class="stat-deco"></div>
+    </div>
+    }
+  </section>
+
+
+  <!-- ============ MIDDLE ROW: Chart + Activity ============ -->
+  <div class="mid-row">
+
+    <!-- Courses Enrollment Chart -->
+    <div class="card chart-card">
+      <div class="card-header">
+        <div>
+          <h3 class="card-title">Course Enrollments</h3>
+          <p class="card-subtitle">Monthly overview</p>
+        </div>
+        <!-- Period selector — wire up with [(ngModel)] if you add filtering logic -->
+        <select class="period-select">
+          <option>This Year</option>
+          <option>Last Year</option>
+        </select>
+      </div>
+
+      <!-- Canvas is used by Chart.js — referenced in .ts via @ViewChild -->
+      <div class="chart-wrapper">
+        <canvas #enrollmentChart></canvas>
+      </div>
+    </div>
+
+
+    <!-- Recent Activity Feed -->
+    <div class="card activity-card">
+      <div class="card-header">
+        <div>
+          <h3 class="card-title">Recent Activity</h3>
+          <p class="card-subtitle">Latest events</p>
+        </div>
+        <button class="see-all-btn">See all</button>
+      </div>
+
+      <!-- Activity list — data from activityFeed array in .ts -->
+      <ul class="activity-list">
+        @for (item of activityFeed; track item.name) {
+        <li class="activity-item">
+          <!-- Avatar with first letter -->
+          <div class="activity-avatar" [style.background]="item.color + '33'" [style.color]="item.color">
+            {{ item.initials }}
+          </div>
+          <div class="activity-info">
+            <p class="activity-text">
+              <strong>{{ item.name }}</strong> {{ item.action }}
+            </p>
+            <span class="activity-time">
+              <i class="fas fa-clock"></i> {{ item.time }}
+            </span>
+          </div>
+          <!-- Type badge -->
+          <span class="activity-badge" [style.background]="item.color + '22'" [style.color]="item.color">
+            {{ item.type }}
+          </span>
+        </li>
+        }
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- ============ BOTTOM ROW: Top Courses + Top Students ============ -->
+  <div class="bottom-row">
+
+    <!-- Top Courses List -->
+    <div class="card courses-card">
+      <div class="card-header">
+        <div>
+          <h3 class="card-title">Top Courses</h3>
+          <p class="card-subtitle">By enrollment</p>
+        </div>
+      </div>
+
+      <!-- topCourses array from .ts -->
+      @for (course of topCourses; track course.name; let i = $index) {
+      <div class="course-item">
+        <span class="course-rank">{{ i + 1 }}</span>
+
+        <div class="course-icon" [style.background]="course.color + '22'">
+          <i [class]="'fas ' + course.icon" [style.color]="course.color"></i>
+        </div>
+
+        <div class="course-info">
+          <p class="course-name">{{ course.name }}</p>
+          <p class="course-instructor">by {{ course.instructor }}</p>
+        </div>
+
+        <!-- Progress bar: width bound to course.progress -->
+        <div class="course-progress-wrapper">
+          <div class="course-progress-bar">
+            <div
+              class="course-progress-fill"
+              [style.width.%]="course.progress"
+              [style.background]="course.color"
+            ></div>
+          </div>
+          <span class="course-pct">{{ course.progress }}%</span>
+        </div>
+      </div>
+      }
+    </div>
+
+
+    <!-- Top Students Table -->
+    <div class="card students-card">
+      <div class="card-header">
+        <div>
+          <h3 class="card-title">Top Students</h3>
+          <p class="card-subtitle">Leaderboard</p>
+        </div>
+        <button class="see-all-btn">See all</button>
+      </div>
+
+      <!-- topStudents array from .ts -->
+      <table class="students-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Student</th>
+            <th>Course</th>
+            <th>Score</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (s of topStudents; track s.name; let i = $index) {
+          <tr>
+            <td class="rank">{{ i + 1 }}</td>
+            <td>
+              <div class="student-cell">
+                <div class="s-avatar" [style.background]="s.color">{{ s.initials }}</div>
+                <span>{{ s.name }}</span>
+              </div>
+            </td>
+            <td class="course-col">{{ s.course }}</td>
+            <td class="score">{{ s.score }}%</td>
+            <td>
+              <!-- Status badge: class changes based on status value -->
+              <span class="status-badge" [class]="s.status">{{ s.status }}</span>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>

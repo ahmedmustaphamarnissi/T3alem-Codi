@@ -1,0 +1,59 @@
+<div class="w3-main login-page">
+  <div class="login-wrapper">
+    <form class="login-card w3-card-4" #f="ngForm" (ngSubmit)="Login(f)">
+      <h1 class="w3-text-red login-title"><b>Login</b></h1>
+      <hr class="login-hr" />
+
+      <div class="w3-section">
+        <label class="login-label">Email</label>
+        <input
+          class="w3-input w3-border w3-round login-input"
+          type="email"
+          name="email"
+          ngModel
+          #email="ngModel"
+          required
+          email
+        />
+        @if (email.invalid && email.touched) {
+          <span class="error-msg">
+            @if (email.errors?.['required']) {
+              Email is required.
+            }
+            @if (email.errors?.['email']) {
+              Enter a valid email.
+            }
+          </span>
+        }
+      </div>
+
+      <div class="w3-section">
+        <label class="login-label">Password</label>
+        <input
+          class="w3-input w3-border w3-round login-input"
+          type="password"
+          name="password"
+          ngModel
+          #password="ngModel"
+          required
+          minlength="4"
+        />
+        @if (password.invalid && password.touched) {
+          <span class="error-msg">
+            @if (password.errors?.['required']) {
+              Password is required.
+            }
+            @if (password.errors?.['minlength']) {
+              At least 4 characters.
+            }
+          </span>
+        }
+      </div>
+      <button type="submit" class="w3-button w3-red w3-round login-btn" [disabled]="f.invalid">Login</button>
+
+      <p class="login-footer">
+        Don't have an account? <a routerLink="/register" class="w3-text-red">Register</a>
+      </p>
+    </form>
+  </div>
+</div>

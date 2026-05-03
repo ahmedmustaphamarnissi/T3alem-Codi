@@ -1,0 +1,95 @@
+<div class="update-student-container">
+  <div class="update-card">
+    <div class="card-header">
+      <h1 class="card-title-main"><b>Edit Profile</b></h1>
+      <hr class="card-hr" />
+      <h5 class="card-title">Update your account information</h5>
+    </div>
+
+    <div class="card-body">
+      <form class="form-card" #f="ngForm" (ngSubmit)="UpdateStudent(f)">
+        <div class="form-grid">
+          <!-- Username -->
+          <div class="form-group form-group-full">
+            <label class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-input"
+              [class.is-invalid]="username.invalid && username.touched"
+              placeholder="username"
+              required
+              name="username"
+              #username="ngModel"
+              [(ngModel)]="student.userName"
+              minlength="2"
+              maxlength="20"
+            />
+            @if (username.errors?.['required'] && username.touched) {
+              <div class="form-error">This field is required.</div>
+            }
+            @if (username.errors?.['minlength'] && username.touched) {
+              <div class="form-error">Minimum 2 characters.</div>
+            }
+          </div>
+
+          <!-- Email -->
+          <div class="form-group form-group-full">
+            <label class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-input"
+              [class.is-invalid]="email.invalid && email.touched"
+              placeholder="email"
+              required
+              email
+              name="email"
+              #email="ngModel"
+              [(ngModel)]="student.email"
+            />
+            @if (email.errors?.['required'] && email.touched) {
+              <div class="form-error">This field is required.</div>
+            }
+            @if (email.errors?.['email'] && email.touched) {
+              <div class="form-error">Please enter a valid email address.</div>
+            }
+          </div>
+
+          <!-- Password -->
+          <div class="form-group form-group-full">
+            <label class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-input"
+              [class.is-invalid]="password.invalid && password.touched"
+              placeholder="new password"
+              required
+              name="password"
+              #password="ngModel"
+              [(ngModel)]="student.password"
+              minlength="6"
+            />
+            @if (password.errors?.['required'] && password.touched) {
+              <div class="form-error">This field is required.</div>
+            }
+            @if (password.errors?.['minlength'] && password.touched) {
+              <div class="form-error">Minimum 6 characters.</div>
+            }
+          </div>
+        </div>
+
+        <!-- Global error -->
+        @if (f.invalid && f.touched) {
+          <div class="form-error-global">Please fix the errors above before submitting.</div>
+        }
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="onCancel()">Cancel</button>
+          <button class="btn-submit" type="submit" [disabled]="f.invalid">
+            <i class="fas fa-floppy-disk"></i> Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<nav
+  class="w3-sidebar w3-collapse w3-top w3-large w3-padding"
+  style="z-index: 3; width: 280px; font-weight: bold"
+  id="mySidebar"
+>
+  <a
+    href="javascript:void(0)"
+    onclick="w3_close()"
+    class="w3-button w3-hide-large w3-display-topleft"
+    style="width: 100%; font-size: 22px"
+    >Close Menu</a
+  >
+
+  <!-- Logo -->
+  <div class="sidebar-logo">
+    <i class="fa-solid fa-code logo-icon"></i>
+    <span class="logo-text">T3alem Codi</span>
+  </div>
+
+  <!-- Nav Links -->
+  <div class="w3-bar-block sidebar-nav">
+    <a routerLink="/" class="w3-bar-item w3-button sidebar-link">
+      <i class="fa fa-home sidebar-icon"></i> Home
+    </a>
+    @if (!userAuth.IsUserLoggedIn()) {
+      <a routerLink="/login" class="w3-bar-item w3-button sidebar-link">
+        <i class="fa fa-sign-in sidebar-icon"></i> Login
+      </a>
+      <a routerLink="/register" class="w3-bar-item w3-button sidebar-link">
+        <i class="fa fa-user-plus sidebar-icon"></i> Register
+      </a>
+    }
+    @if (userAuth.IsUserLoggedIn()) {
+      <a routerLink="/allstudents" class="w3-bar-item w3-button sidebar-link">
+        <i class="fa fa-users sidebar-icon"></i> Students
+      </a>
+      <a routerLink="/edituser" class="w3-bar-item w3-button sidebar-link">
+        <i class="fa fa-pen-to-square sidebar-icon"></i> Edit Profile
+      </a>
+      <a routerLink="/courses" class="w3-bar-item w3-button sidebar-link">
+        <i class="fa fa-book sidebar-icon"></i> Courses
+      </a>
+      <a (click)="Logout()" class="w3-bar-item w3-button sidebar-link">
+        <i class="fa fa-right-from-bracket sidebar-icon"></i> Logout
+      </a>
+    }
+    <!-- Always visible -->
+    <a routerLink="/settings" class="w3-bar-item w3-button sidebar-link">
+      <i class="fa fa-cog sidebar-icon"></i> Settings
+    </a>
+  </div>
+</nav>
+<router-outlet></router-outlet>

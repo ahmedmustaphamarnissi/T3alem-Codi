@@ -1,0 +1,224 @@
+<div class="add-course-wrap">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h2 class="page-title">Add Course</h2>
+      <p class="page-subtitle">Fill in the form below to create a new course.</p>
+    </div>
+    <a class="btn-back" routerLink="../allcourses">
+      <i class="fas fa-arrow-left"></i> Back to Courses
+    </a>
+  </div>
+
+  <!-- Form Card -->
+  <form class="form-card" #f="ngForm" (ngSubmit)="add(f)">
+    <div class="form-grid">
+
+      <!-- Course Name -->
+      <div class="form-group form-group-full">
+        <label class="form-label">Course Name</label>
+        <input
+          type="text"
+          class="form-input"
+          [class.is-invalid]="name.invalid && name.touched"
+          placeholder="Enter course name"
+          required
+          name="name"
+          #name="ngModel"
+          ngModel
+          minlength="3"
+          maxlength="100"
+        />
+        @if (name.errors?.['required'] && name.touched) {
+          <div class="form-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            This field is required.
+          </div>
+        }
+        @if (name.errors?.['minlength'] && name.touched) {
+          <div class="form-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Minimum 3 characters.
+          </div>
+        }
+      </div>
+
+      <!-- Description -->
+      <div class="form-group form-group-full">
+        <label class="form-label">Description</label>
+        <textarea
+          class="form-input form-textarea"
+          [class.is-invalid]="description.invalid && description.touched"
+          placeholder="Enter course description"
+          required
+          name="description"
+          #description="ngModel"
+          ngModel
+          minlength="10"
+          maxlength="1000"
+          rows="4"
+        ></textarea>
+        <div class="char-count">{{ f.value?.description?.length || 0 }} / 1000</div>
+        @if (description.errors?.['required'] && description.touched) {
+          <div class="form-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            This field is required.
+          </div>
+        }
+        @if (description.errors?.['minlength'] && description.touched) {
+          <div class="form-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Minimum 10 characters.
+          </div>
+        }
+      </div>
+
+      <!-- Price -->
+      <div class="form-group">
+        <label class="form-label">Price ($)</label>
+        <input
+          type="number"
+          class="form-input"
+          [class.is-invalid]="price.invalid && price.touched"
+          placeholder="0.00"
+          required
+          min="0"
+          name="price"
+          #price="ngModel"
+          ngModel
+        />
+        @if (price.errors?.['required'] && price.touched) {
+          <div class="form-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            This field is required.
+          </div>
+        }
+        @if (price.errors?.['min'] && price.touched) {
+          <div class="form-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Price cannot be negative.
+          </div>
+        }
+      </div>
+
+      <!-- Image URL -->
+      <div class="form-group">
+        <label class="form-label">Image URL</label>
+        <input
+          type="text"
+          class="form-input"
+          [class.is-invalid]="imageUrl.invalid && imageUrl.touched"
+          placeholder="https://..."
+          name="imageUrl"
+          #imageUrl="ngModel"
+          ngModel
+        />
+        @if (imageUrl.value) {
+          <div class="image-preview">
+            <img [src]="imageUrl.value" alt="Preview" (error)="$any($event.target).style.display='none'" />
+          </div>
+        }
+      </div>
+
+      <!-- Domain -->
+      <div class="form-group">
+        <label class="form-label">Domain</label>
+        <select
+          class="form-input form-select"
+          [class.is-invalid]="domainId.invalid && domainId.touched"
+          required
+          name="domainId"
+          #domainId="ngModel"
+          [(ngModel)]="selectedDomainId"
+          (ngModelChange)="onDomainChange($event)"
+        >
+          <option value="" disabled selected>Select a domain</option>
+          @for (domain of domains; track domain.id) {
+            <option [value]="domain.id">{{ domain.name }}</option>
+          }
+        </select>
+        @if (domainId.errors?.['required'] && domainId.touched) {
+          <div class="form-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Please select a domain.
+          </div>
+        }
+      </div>
+
+      <!-- Instructor (filtered by domain) -->
+      <div class="form-group">
+        <label class="form-label">Instructor</label>
+        <select
+          class="form-input form-select"
+          [class.is-invalid]="instructorId.invalid && instructorId.touched"
+          [disabled]="!selectedDomainId"
+          required
+          name="instructorId"
+          #instructorId="ngModel"
+          ngModel
+        >
+          <option value="" disabled selected>
+            {{ selectedDomainId ? 'Select an instructor' : 'Select a domain first' }}
+          </option>
+          @for (instructor of filteredInstructors; track instructor.id) {
+            <option [value]="instructor.id">{{ instructor.firstName }} {{ instructor.lastName }}</option>
+          }
+        </select>
+        @if (!selectedDomainId) {
+          <div class="form-hint">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Choose a domain to see available instructors.
+          </div>
+        }
+        @if (instructorId.errors?.['required'] && instructorId.touched) {
+          <div class="form-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Please select an instructor.
+          </div>
+        }
+      </div>
+
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button class="btn-reset" type="button" (click)="resetForm(f)">
+        <i class="fas fa-rotate-left"></i> Reset
+      </button>
+      <button class="btn-submit" type="submit" [disabled]="f.invalid">
+        <i class="fas fa-plus"></i> Add Course
+      </button>
+    </div>
+
+    @if (f.invalid && f.touched) {
+      <div class="mt-4">
+        <div class="form-error form-error-global" style="float:right;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          Please fix the errors above before submitting the form.
+        </div>
+      </div>
+    }
+
+  </form>
+</div>

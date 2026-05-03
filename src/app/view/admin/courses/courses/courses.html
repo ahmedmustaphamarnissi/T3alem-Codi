@@ -1,0 +1,320 @@
+<div class="wrap">
+  <div class="header">
+    <div>
+      <div class="title">Courses</div>
+      <div class="subtitle">{{ courses.length }} total courses available</div>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center">
+      <div class="search-bar">
+        <svg
+          width="14"
+          height="14"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <path d="M21 21l-4.35-4.35" />
+        </svg>
+        <input placeholder="Search courses..." id="searchInput" oninput="filterTable()" />
+      </div>
+      <button class="btn-add" routerLink="../addcourse">
+        <svg
+          width="14"
+          height="14"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+        Add Course
+      </button>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <table id="coursesTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Domain</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        @for (course of paginatedCourses; track course.id) {
+          <tr>
+            <td>{{ course.id }}</td>
+            <td>{{ course.name }}</td>
+            @if (course.price !== 0) {
+              <td>${{ course.price }}</td>
+            } @else {
+              <td>Free</td>
+            }
+            <td>{{ course.domainName }}</td>
+            <td>
+              <div class="actions">
+                <button
+                  (click)="sendData(course.id)"
+                  class="btn-edit"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                >
+                  Edit
+                </button>
+                <button class="btn-del" (click)="details(course.id)">Details</button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    <div class="footer">
+      <span id="footerText">Showing {{ courses.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1 }}–{{ (currentPage * itemsPerPage) > courses.length ? courses.length : (currentPage * itemsPerPage) }} of {{ courses.length }}</span>
+      <div class="pages" id="pages">
+        <button [disabled]="currentPage === 1" (click)="prevPage()" class="page-btn">Prev</button>
+        @for (page of pagesArray; track page) {
+          <button [class.active]="currentPage === page" (click)="goToPage(page)" class="page-btn">{{ page }}</button>
+        }
+        <button [disabled]="currentPage === totalPages || totalPages === 0" (click)="nextPage()" class="page-btn">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content update-modal">
+        <!-- Header -->
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Course</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-body">
+          <form class="form-card" #f="ngForm" (ngSubmit)="UpdateCourse(f)">
+            <div class="form-grid">
+              <!-- Name -->
+              <div class="form-group">
+                <label class="form-label">Name</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  [class.is-invalid]="name.invalid && name.touched"
+                  placeholder="name"
+                  required
+                  name="name"
+                  #name="ngModel"
+                  [(ngModel)]="course.name"
+                  minlength="2"
+                  maxlength="100"
+                />
+                @if (name.errors?.['required'] && name.touched) {
+                  <div class="form-error">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    This field is required.
+                  </div>
+                }
+                @if (name.errors?.['minlength'] && name.touched) {
+                  <div class="form-error">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    Minimum 2 characters.
+                  </div>
+                }
+              </div>
+
+              <!-- Description -->
+              <div class="form-group">
+                <label class="form-label">Description</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  [class.is-invalid]="description.invalid && description.touched"
+                  placeholder="description"
+                  required
+                  name="description"
+                  #description="ngModel"
+                  [(ngModel)]="course.description"
+                  minlength="2"
+                  maxlength="500"
+                />
+                @if (description.errors?.['required'] && description.touched) {
+                  <div class="form-error">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    This field is required.
+                  </div>
+                }
+                @if (description.errors?.['minlength'] && description.touched) {
+                  <div class="form-error">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    Minimum 2 characters.
+                  </div>
+                }
+              </div>
+
+              <!-- Price -->
+              <div class="form-group form-group-full">
+                <label class="form-label">Price</label>
+                <input
+                  type="number"
+                  class="form-input"
+                  [class.is-invalid]="price.invalid && price.touched"
+                  placeholder="price"
+                  required
+                  name="price"
+                  #price="ngModel"
+                  [(ngModel)]="course.price"
+                />
+                @if (price.errors?.['required'] && price.touched) {
+                  <div class="form-error">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    This field is required.
+                  </div>
+                }
+                @if (price.errors?.['min'] && price.touched) {
+                  <div class="form-error">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    Please enter a valid price.
+                  </div>
+                }
+              </div>
+
+              <!-- Picture -->
+              <div class="form-group">
+                <label class="form-label">Picture</label>
+                <input
+                  type="file"
+                  class="form-input"
+                  accept="image/*"
+                  (change)="onFileChange($event)"
+                />
+              </div>
+            </div>
+
+            <!-- Global error -->
+            @if (f.invalid && f.touched) {
+              <div class="form-error-global">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                Please fix the errors above before submitting.
+              </div>
+            }
+
+            <!-- Actions -->
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button class="btn-submit" type="submit" [disabled]="f.invalid">
+                <i class="fas fa-floppy-disk"></i> Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

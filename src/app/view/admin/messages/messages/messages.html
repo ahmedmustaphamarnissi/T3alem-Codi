@@ -1,0 +1,153 @@
+<div class="messages-page">
+
+  <!-- Sidebar -->
+  <div class="msg-sidebar">
+    <button class="compose-btn" (click)="openCompose()">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M8 3v10M3 8h10"/>
+      </svg>
+      Compose
+    </button>
+
+    <nav class="msg-nav">
+      <button class="nav-item" [class.active]="activeTab === 'inbox'" (click)="setTab('inbox')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M4 4h16v13a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/><path d="M4 8l8 5 8-5"/>
+        </svg>
+        Inbox
+        <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab === 'sent'" (click)="setTab('sent')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/>
+        </svg>
+        Sent
+      </button>
+      <button class="nav-item" [class.active]="activeTab === 'starred'" (click)="setTab('starred')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        Starred
+      </button>
+      <button class="nav-item" [class.active]="activeTab === 'trash'" (click)="setTab('trash')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>
+        </svg>
+        Trash
+      </button>
+    </nav>
+  </div>
+
+  <!-- Message List -->
+  <div class="msg-list">
+    <div class="list-header">
+      <h2>{{ activeTab | titlecase }}</h2>
+      <div class="list-actions">
+        <input type="text" placeholder="Search messages..." class="search-input" [(ngModel)]="searchQuery"/>
+      </div>
+    </div>
+
+    <div class="msg-items">
+      <div
+        class="msg-item"
+        *ngFor="let msg of filteredMessages"
+        [class.unread]="!msg.read"
+        [class.selected]="selectedMessage?.id === msg.id"
+        (click)="selectMessage(msg)"
+      >
+        <div class="avatar">{{ msg.senderInitials }}</div>
+        <div class="msg-info">
+          <div class="msg-meta">
+            <span class="sender">{{ msg.sender }}</span>
+            <span class="date">{{ msg.date }}</span>
+          </div>
+          <div class="msg-subject">{{ msg.subject }}</div>
+          <div class="msg-status" *ngIf="!msg.read">
+            <span class="unread-dot"></span> Unread
+          </div>
+        </div>
+        <button class="star-btn" (click)="toggleStar(msg, $event)" [class.starred]="msg.starred">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="empty-state" *ngIf="filteredMessages.length === 0">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M4 4h16v13a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/><path d="M4 8l8 5 8-5"/>
+        </svg>
+        <p>No messages found</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message Detail -->
+  <div class="msg-detail" *ngIf="selectedMessage; else noSelection">
+    <div class="detail-header">
+      <h3>{{ selectedMessage.subject }}</h3>
+      <div class="detail-actions">
+        <button class="action-btn" (click)="openReply()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 17l-5-5 5-5M20 18v-2a4 4 0 00-4-4H4"/>
+          </svg>
+          Reply
+        </button>
+        <button class="action-btn danger" (click)="deleteMessage(selectedMessage)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>
+          </svg>
+          Delete
+        </button>
+      </div>
+    </div>
+    <div class="detail-sender">
+      <div class="avatar lg">{{ selectedMessage.senderInitials }}</div>
+      <div>
+        <p class="sender-name">{{ selectedMessage.sender }}</p>
+        <p class="sender-email">{{ selectedMessage.email }}</p>
+      </div>
+      <span class="detail-date">{{ selectedMessage.date }}</span>
+    </div>
+    <div class="detail-body">{{ selectedMessage.body }}</div>
+  </div>
+
+  <ng-template #noSelection>
+    <div class="msg-detail no-selection">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M4 4h16v13a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/><path d="M4 8l8 5 8-5"/>
+      </svg>
+      <p>Select a message to read</p>
+    </div>
+  </ng-template>
+
+  <!-- Compose Modal -->
+  <div class="compose-overlay" *ngIf="showCompose" (click)="closeCompose()"></div>
+  <div class="compose-modal" *ngIf="showCompose">
+    <div class="compose-header">
+      <span>New Message</span>
+      <button class="close-btn" (click)="closeCompose()">✕</button>
+    </div>
+    <div class="compose-fields">
+      <div class="compose-field">
+        <label>To</label>
+        <input type="email" [(ngModel)]="compose.to" placeholder="recipient@example.com"/>
+      </div>
+      <div class="compose-field">
+        <label>Subject</label>
+        <input type="text" [(ngModel)]="compose.subject" placeholder="Subject"/>
+      </div>
+    </div>
+    <textarea [(ngModel)]="compose.body" placeholder="Write your message..."></textarea>
+    <div class="compose-footer">
+      <button class="send-btn" (click)="sendMessage()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/>
+        </svg>
+        Send
+      </button>
+      <button class="discard-btn" (click)="closeCompose()">Discard</button>
+    </div>
+  </div>
+
+</div>

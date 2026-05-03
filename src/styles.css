@@ -1,1 +1,91 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  /* Backgrounds */
+  --main-bg: #f5f6fa;       /* Page background — soft off-white */
+  --sidebar-bg: #ffffff;    /* Sidebar — pure white */
+  --card-bg: #ffffff;       /* Card background */
+
+  /* Borders */
+  --border-color: rgba(0, 0, 0, 0.08);
+
+  /* Text */
+  --text-primary: #1a1d2e;                  /* Near-black for headings */
+  --text-secondary: rgba(26, 29, 46, 0.72); /* Body text */
+  --text-muted: rgba(26, 29, 46, 0.42);     /* Labels / placeholders */
+
+  /* Accent */
+  --accent: #6366f1;
+  --accent-gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+body.dark-theme {
+  --main-bg: #0f111a;
+  --sidebar-bg: #1a1d2d;
+  --card-bg: #1a1d2d;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --text-primary: #f8f9fa;
+  --text-secondary: rgba(248, 249, 250, 0.85);
+  --text-muted: rgba(248, 249, 250, 0.5);
+  /* Accent remains the same as it's vibrant on dark mode */
+}
+
+/* ---- Reset ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  background: var(--main-bg);
+  color: var(--text-secondary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--main-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 10px;
+
+  &:hover {
+    background: rgba(99, 102, 241, 0.6);
+  }
+}
+
+/* ---- Animations ---- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply to dashboard sections for a staggered entrance */
+.stats-grid {
+  animation: fadeInUp 0.4s ease both;
+}
+.mid-row {
+  animation: fadeInUp 0.4s 0.1s ease both;
+}
+.bottom-row {
+  animation: fadeInUp 0.4s 0.2s ease both;
+}
