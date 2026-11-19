@@ -1,0 +1,6 @@
+@meanProject_HostAddress = http://localhost:5259
+
+GET {{meanProject_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,44 +1,223 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# ============================================================
+# Angular
+# ============================================================
 
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+# Angular build output
+/dist/
+dist/
+/tmp/
+/out-tsc/
+out-tsc/
+/bazel-out/
+
+# Angular cache
+/.angular/
+/.angular/cache/
+.angular/
+.angular/cache/
 
 # Node
-/node_modules
-npm-debug.log
-yarn-error.log
+/node_modules/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+# Angular / TypeScript
+/coverage/
+/.typings/
+/.tscache/
 
+# Sass
+.sass-cache/
+
+# ============================================================
+# ASP.NET Core / .NET
+# ============================================================
+
+# Build output
+**/[Bb]in/
+**/[Oo]bj/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+out/
+artifacts/
+
+# .NET generated files
+project.lock.json
+project.fragment.lock.json
+
+# NuGet
+*.nupkg
+*.snupkg
+**/packages/
+
+# Logs
+*.log
+[Ll]og/
+[Ll]ogs/
+
+# ASP.NET scaffolding
+ScaffoldingReadMe.txt
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+
+# Code coverage
+coverage*.json
+coverage*.xml
+coverage*.info
+*.coverage
+*.coveragexml
+
+# ============================================================
+# Visual Studio
+# ============================================================
+
+# Visual Studio cache
+.vs/
+
+# User-specific Visual Studio files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio generated files
+Generated Files/
+*.pdb
+*.obj
+*.ilk
+*.idb
+*.iobj
+*.ipdb
+*.cache
+
+# Visual Studio profiling
+*.psess
+*.vsp
+*.vspx
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# ============================================================
 # Visual Studio Code
+# ============================================================
+
+# Ignore VS Code workspace-specific files
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/mcp.json
-.history/*
 
+# VS Code workspace files
+*.code-workspace
+
+# VS Code local history
+.history/
+
+# C# Dev Kit / language server cache
+*.lscache
+
+# ============================================================
+# JetBrains
+# ============================================================
+
+.idea/
+
+# ============================================================
+# Environment / Secrets
+# ============================================================
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# ASP.NET local development secrets
+secrets.json
+
+# User-specific local configuration
+appsettings.Development.local.json
+
+# ============================================================
+# ASP.NET / Deployment
+# ============================================================
+
+# Publish output
+publish/
+PublishScripts/
+
+# Publish profiles may contain credentials
+*.pubxml
+*.publishproj
+
+# Azure publish settings
+*.publishsettings
+
+# ============================================================
+# Database / Local development files
+# ============================================================
+
+# Local SQL Server database files
+*.mdf
+*.ldf
+
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+
+# ============================================================
+# OS files
+# ============================================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux / temporary
+*~
+*.swp
+
+# ============================================================
 # Miscellaneous
-/.angular/cache
-.sass-cache/
+# ============================================================
+
 /connect.lock
-/coverage
 /libpeerconnection.log
 testem.log
-/typings
 __screenshots__/
 
-# System files
-.DS_Store
-Thumbs.db
+# Temporary / backup files
+*.tmp
+*.temp
+*.bak
+~$*
+*~
+
+# Crash dumps
+*.dmp
+*.dump
+mono_crash.*
